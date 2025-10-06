@@ -1,0 +1,9 @@
+name: brilleApp
+services:
+  user-services:
+    container_name: user-service
+    image: sikoding20/user-service
+    ports:
+      - "8001:8001"
+    env_file:
+      - .env
