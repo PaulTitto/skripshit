@@ -10,7 +10,7 @@ import (
 )
 
 func InitDatabase() (*gorm.DB, error) {
-	config := config
+	config := Config
 	encodePassword := url.QueryEscape(config.Database.Password)
 	uri := fmt.Sprintf("postgres://%s:%s@%s:%d/%s?sslmode=disable",
 		config.Database.Username,

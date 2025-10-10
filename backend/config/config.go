@@ -7,7 +7,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-var config AppConfig
+var Config AppConfig
 
 type AppConfig struct {
 	Port                  int      `json:"port"`
@@ -15,7 +15,7 @@ type AppConfig struct {
 	AppEnv                string   `json:"appEnv"`
 	SignatureKey          string   `json:"signatureKey"`
 	Database              Database `json:"database"`
-	RateLimiterMaxRequest int      `json:"rateLimiterMaxRequest"`
+	RateLimiterMaxRequest float64  `json:"rateLimiterMaxRequest"`
 	RateLimiterTimeSecond int      `json:"rateLimiterTimeSecond"`
 	JwtSecretKey          string   `json:"jwtSecretKey"`
 	JwtExpirationTime     int      `json:"jwtExpirationTime"`
@@ -33,11 +33,11 @@ type Database struct {
 	MaxIdleTime           int    `json:"maxIdleTime"`
 }
 
-func init() {
-	err := utils.BindFromJson(&config, "config.json", ".")
+func Init() {
+	err := utils.BindFromJson(&Config, "Config.json", ".")
 	if err != nil {
-		logrus.Info("Failed to bind config %v", err)
-		err = utils.BindFromCosul(&config, os.Getenv("CONSUL_HTTP_URL"), os.Getenv("CONSUL_HTTP_KEY"))
+		logrus.Info("Failed to bind Config %v", err)
+		err = utils.BindFromConsul(&Config, os.Getenv("CONSUL_HTTP_URL"), os.Getenv("CONSUL_HTTP_KEY"))
 		if err != nil {
 			panic(err)
 		}
